@@ -1,0 +1,73 @@
+/* Container for the loader */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Bouncing dots */
+.dot {
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    background-color: #3498db; /* Initial color */
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out, colorChange 2.8s infinite ease-in-out;
+}
+
+/* Delay each dot's animation */
+.dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+/* Keyframes for the bounce effect */
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: translateY(0); /* Dots at the bottom */
+    }
+    40% {
+        transform: translateY(-30px); /* Dots bounce up */
+    }
+}
+
+/* Keyframes for the color change effect */
+@keyframes colorChange {
+    0% {
+        background-color: #3498db; /* Blue */
+    }
+    25% {
+        background-color: #e74c3c; /* Red */
+    }
+    50% {
+        background-color: #fa0f0f; /* Green */
+    }
+    75% {
+        background-color: #f1c40f; /* Yellow */
+    }
+    100% {
+        background-color: #3498db; /* Back to blue */
+    }
+}
+
+/* Optional: Add some text below the loader */
+.loading-text {
+    font-family: Arial, sans-serif;
+    color: #363737;
+    font-size: 1.2em;
+    /*make the text color change throut ther animation*/
+    animation: fade 2s infinite ease-in-out;
+}
+
+/* Keyframes for the fading text effect */
+@keyframes fade {
+    0%, 100% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+}
