@@ -10,82 +10,44 @@ import {
 } from "@/components/ui/table";
 import '../fragments/css/App.css';
 
-function DisplayTable() {
-    const [tableData, setTableData] = useState([]); 
-    const [loading, setLoading] = useState(true); 
-    const [error, setError] = useState(null);
+function DisplayTable(){
+    const [user, setUser] = useState({
+        user:'',
+        setUser: ''
+    })
 
-
-    const fetchData = async () => {
-        try {
-            const response = await axios.get('http://localhost:3000/display');
-            console.log(response.data);
-            setTableData(response.data); 
-            setError(null); 
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            setError(error);
-        } finally {
-            setLoading(false); 
-        }
-    };
+    const [tableData, setTableData] = useState({
+        tableData: '',
+        setTableData: ''
+    })
 
     useEffect(() => {
-        setInterval(fetchData,3000)
+        const fetchTable = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/display');
+                setTableData(response.data); // Update state with fetched data
+            } catch (error) {
+                console.error('Error fetching table data:', error);
+            }
+        };
+
+        fetchTable(); // Call the async function
     }, []);
 
-    const formatTime = (isoString) => {
-        const date = new Date(isoString);
-        const hours = String(date.getHours()).padStart(2, '0'); 
-        const minutes = String(date.getMinutes()).padStart(2, '0'); 
-        return `${hours}:${minutes}`; 
-    };
-
-    if (loading) {
-        return (
-            <div className="loader mt-16">
-                <div className="dot"></div>
-                <div className="dot"></div>
-                <div className="dot"></div>
-                <div className="loading-text">Loading...</div>
-            </div>
-        )
-    }
-
-    if (error) {
-        return <div className="text-center mt-16 text-red-500">{error}</div>; 
-    }
-
-    return (
-        <Table className="w-full px-8 mx-auto p-6 md:bg-white md:rounded-lg md:shadow-lg md:border md:border-gray-200 md:mt-32 md:flex-row md:items-end md:justify-between md:gap-4 md:w-10/12 xl:w-6/12">
-            <TableHeader className="bg-gray-500">
-                <TableRow>
-                    <TableHead className="w-[120px] text-center font-semibold text-neutral-900 py-3">Time</TableHead>
-                    <TableHead className="w-[120px] text-center font-semibold text-neutral-900 py-3">Plate</TableHead>
-                    <TableHead className="w-[120px] text-center font-semibold text-neutral-900 py-3">Reason</TableHead>
-                    <TableHead className="w-[120px] text-center font-semibold text-neutral-900 py-3">Address</TableHead>
+    return(
+        <Table className="w-full mx-auto bg-white rounded-lg shadow-lg border border-gray-200 mt-24 md:w-10/12 xl:w-6/12 overflow-hidden">
+            <TableHeader className="bg-gray-300">
+                <TableRow className="hover:bg-transparent">
+                    <TableHead className="w-[100px] px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider text-center">Plate</TableHead>
+                    <TableHead className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider w-[400px] text-center">address</TableHead>
+                    <TableHead className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider w-[400px] text-center">Method</TableHead>
                 </TableRow>
             </TableHeader>
-            <TableBody>
-                {tableData.length > 0 ? (
-                    tableData.map((cell) => (
-                        <TableRow key={cell._id} className="hover:bg-gray-200 transition-colors duration-200">
-                            <TableCell className="text-center text-gray-600 py-3 border-t border-gray-100">{formatTime(cell.createdAt)}</TableCell>
-                            <TableCell className="text-center text-gray-600 py-3 border-t border-gray-100">{cell.plate}</TableCell>
-                            <TableCell className="text-center text-gray-600 py-3 border-t border-gray-100">{cell.reason}</TableCell>
-                            <TableCell className="text-center text-gray-600 py-3 border-t border-gray-100">{cell.address}</TableCell>
-                        </TableRow>
-                    ))
-                ) : (
-                    <TableRow>
-                        <TableCell colSpan={4} className="text-center text-gray-500 py-8">
-                            No data available.
-                        </TableCell>
-                    </TableRow>
-                )}
+            <TableBody className="divide-y divide-gray-200">
+                
             </TableBody>
         </Table>
-    );
+    )
 }
 
-export default DisplayTable;
+export default DisplayTable
