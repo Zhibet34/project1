@@ -10,9 +10,9 @@ const homeSchema = new mongoose.Schema({
     },
     tour: {
         type: String,
-        required: true
-    }
-})
+        required: true,
+    },
+},{ timestamps: true });
 
 const homeModel = mongoose.model('homeModel',homeSchema)
 
