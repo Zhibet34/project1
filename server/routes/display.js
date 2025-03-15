@@ -3,10 +3,16 @@ const displayRoute = express.Router();
 const user = require('../models/homeModel');
 const table = require('../models/displayModel');
 
-displayRoute.get('/display', async(req,res)=>{
-    const serchData = await table.find({});
-    let tableData = serchData.length > 0 ? serchData : 'database is empty'
-    res.send(tableData)
+displayRoute.get('/display', async (req, res) => {
+    try {
+        const searchData = await table.find({})
+            .sort({createdAt: -1})
+            .limit(14)
+        let tableData = searchData ? searchData : 'database is empty';
+        res.send(tableData);
+    } catch (error) {
+        
+    }
 });
 
 displayRoute.post('/display', async(req,res)=>{
@@ -20,7 +26,7 @@ displayRoute.post('/display', async(req,res)=>{
             plate: plate,
             reason: reason,
             address: address,
-            user: latestUser._id,
+            user: latestUser._id, // can i use this
         })
         console.log(newEntry)
         await newEntry.save()

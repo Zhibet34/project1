@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/fragments/Navbar';
 import Homepage from './pages/Homepage';
 import Display from './pages/Display';
-
+import { ImageOff } from 'lucide-react';
+import History_page from './pages/History';
 
 function App() {
 
@@ -11,7 +12,7 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path='/' element={<Homepage/>} />
-        <Route path='/history' element={<h1>history page</h1>}/>
+        <Route path='/history' element={<History_page/>}/>
         <Route path='/display' element={<Display/>} />
       </Routes>
     </Router>
