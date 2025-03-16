@@ -26,7 +26,7 @@ displayRoute.post('/display', async(req,res)=>{
             plate: plate,
             reason: reason,
             address: address,
-            user: latestUser._id, // can i use this
+            user: latestUser._id, // can i use this 
         })
         console.log(newEntry)
         await newEntry.save()
