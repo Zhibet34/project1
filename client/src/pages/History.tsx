@@ -1,5 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion";
 
 function HistoryPage() {
     const [history, setHistory] = useState([]); // All history data
@@ -41,9 +47,10 @@ function HistoryPage() {
         setFilteredHistory(history); // Reset to show all history
     };
 
+    console.log(filteredHistory)
+
     return (
-        <div className="flex flex-col w-full md:w-3/5 p-4 bg-gray-100 rounded-lg shadow-md mx-auto">
-            {/* Filter Input and Button */}
+        <div className="w-full md:w-10/12 xl:w-5/12 md:mx-auto p-4 md:rounded-lg md:shadow-md md:bg-gray-200 mt-24">
             <div className="flex flex-col md:flex-row gap-4 mb-4">
                 <input
                     type="text"
@@ -59,33 +66,38 @@ function HistoryPage() {
                     Clear Filter
                 </button>
             </div>
-
-            {/* History Items */}
-            <div className="flex flex-col md:flex-row md:flex-wrap gap-4 overflow-y-auto">
-                {filteredHistory.length > 0 ? (
-                    filteredHistory.map((item, id) => (
-                        <ul
-                            key={id}
-                            className="flex flex-col md:flex-row md:flex-1 justify-between items-center p-4 border-2 border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-all"
-                        >
-                            <li className="flex-1 text-center">
-                                <strong className="block text-sm text-gray-600">Plate</strong>
-                                <span className="text-lg font-semibold">{item.plate}</span>
-                            </li>
-                            <li className="flex-1 text-center">
-                                <strong className="block text-sm text-gray-600">Reason</strong>
-                                <span className="text-lg font-semibold">{item.reason}</span>
-                            </li>
-                            <li className="flex-1 text-center">
-                                <strong className="block text-sm text-gray-600">Address</strong>
-                                <span className="text-lg font-semibold">{item.address}</span>
-                            </li>
-                        </ul>
-                    ))
-                ) : (
-                    <p className="text-center text-gray-600">No matching history found.</p>
-                )}
-            </div>
+            <Accordion type="single" collapsible>
+                {filteredHistory.map((item) => (
+                    <AccordionItem key={item._id} value={item._id}>
+                        <AccordionTrigger className="flex justify-between items-center p-4 hover:bg-gray-100 rounded-lg">
+                            <div className="flex flex-col items-start">
+                                <p className="font-semibold text-lg">{item.user}</p>
+                                <span className="text-sm text-gray-500">
+                                    {new Date(item.createdAt).toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })}
+                                </span>
+                            </div>
+                            <span className="text-blue-700 font-medium">View Details</span>
+                        </AccordionTrigger>
+                        <AccordionContent className="p-4 bg-gray-50 rounded-b-lg">
+                            <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <li className="bg-white p-3 rounded-lg shadow-sm">
+                                    <strong>Plate:</strong> {item.plate}
+                                </li>
+                                <li className="bg-white p-3 rounded-lg shadow-sm">
+                                    <strong>Reason:</strong> {item.reason}
+                                </li>
+                                <li className="bg-white p-3 rounded-lg shadow-sm">
+                                    <strong>Address:</strong> {item.address}
+                                </li>
+                            </ul>
+                        </AccordionContent>
+                    </AccordionItem>
+                ))}
+            </Accordion>
         </div>
     );
 }
